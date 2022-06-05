@@ -1,0 +1,60 @@
+{% extends 'base-home.html' %}
+{% load static %}
+{% block title %}
+    Gestion de pr�sence
+{% endblock title %}
+{% block content %}
+    <div class="row">
+        <div class="row video">
+            <img src="{% url 'video_feed_' %}">
+        </div>
+    </div>
+    <div>
+        <select class="form-control" id="dynamic_select">
+            
+            <option value="">Store word</option>
+            <option value="{% url 'video_feed_' name_='q' %}">Stop camera</option>
+
+            <option value="">Concatenate</option>
+
+            <option value="">Speak word</option>
+
+              
+            </select>
+        </div>
+
+
+
+        
+        {% comment %} <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Store word</button>
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Clear word</button>
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Concatenate</button>
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Speak word</button>
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Stop camera</button>
+        </div> {% endcomment %}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script type="text/javascript">
+    $(function(){
+        navigator.mediaDevices.getUserMedia({audio:true,video:true})
+    .then(stream => {
+        window.localStream = stream;
+    })
+    .catch( (err) =>{
+        console.log(err);
+    });
+        $('#dynamic_select').on('change', function () {
+            var url = $(this).val(); // get selected value
+            if (url) { // require a URL
+                $('.video').replaceWith('<div class="row video"></div>');
+                localStream.getTracks().forEach( (track) => {
+                    track.stop();
+                    });
+            }
+            return false;
+        });
+    });
+        </script>
+    {% endblock content %}
+
+ 
